@@ -36,7 +36,7 @@ public class JobsAnimator : AnimatorBase {
 
     void Update() {
         _jobStruct = new JobsAnimatorStruct {
-            Amlitude = _amplitude,
+            Amplitude = _amplitude,
             Frequency = _frequency,
             PhaseMultiplier = _phaseMultiplier,
             Time = Time.time
@@ -69,7 +69,7 @@ public class JobsAnimator : AnimatorBase {
 [BurstCompile]
 public struct JobsAnimatorStruct : IJobParallelForTransform {
 
-    [ReadOnly] public NativeArray<float2> Amlitude;
+    [ReadOnly] public NativeArray<float2> Amplitude;
     [ReadOnly] public NativeArray<float2> Frequency;
     [ReadOnly] public NativeArray<float2> PhaseMultiplier;
     [ReadOnly] public float Time;
@@ -81,7 +81,7 @@ public struct JobsAnimatorStruct : IJobParallelForTransform {
         float zPosition = transform.position.z;
         float xWave = math.sin(Frequency[0].x * xPosition + PhaseMultiplier[0].x * Time);
         float zWave = math.sin(Frequency[0].y * zPosition + PhaseMultiplier[0].y * Time);
-        float yPosition = Amlitude[0].x * xWave + Amlitude[0].y * zWave;
+        float yPosition = Amplitude[0].x * xWave + Amplitude[0].y * zWave;
         transform.position = new float3(xPosition, yPosition, zPosition);
     }
 
