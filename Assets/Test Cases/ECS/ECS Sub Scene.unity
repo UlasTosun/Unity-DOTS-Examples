@@ -153,7 +153,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b10583011941f3d4b8273e80b2a2b839, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PrefabToSpawn: {fileID: 14480886797353385, guid: d5dc6667a34deee4ba1712e05ab3c565,
+  PrefabToSpawn: {fileID: 8073483570075569285, guid: 501cc209991380f44b1cae28deae350b,
     type: 3}
   ObjectCount: {x: 200, y: 200}
   ObjectSpacing: {x: 2, y: 2}

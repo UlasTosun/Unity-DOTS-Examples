@@ -475,7 +475,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a7fba951ba25104db3673c12be11f04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PrefabToSpawn: {fileID: 14480886797353385, guid: d5dc6667a34deee4ba1712e05ab3c565,
+  PrefabToSpawn: {fileID: 8073483570075569285, guid: 501cc209991380f44b1cae28deae350b,
     type: 3}
   _autoSpawn: 1
   ObjectCount: {x: 200, y: 200}
