@@ -11,8 +11,6 @@ using Unity.Transforms;
 [BurstCompile]
 partial struct SpawnerSystem : ISystem {
 
-    private bool _isSpawned;
-
 
 
     [BurstCompile]
@@ -24,9 +22,6 @@ partial struct SpawnerSystem : ISystem {
 
     [BurstCompile]
     public void OnUpdate(ref SystemState state) {
-        if (_isSpawned)
-            return;
-
         EntityCommandBuffer ECB = new(Allocator.TempJob);
         EntityCommandBuffer.ParallelWriter ParallelECB = ECB.AsParallelWriter();
 
@@ -44,7 +39,8 @@ partial struct SpawnerSystem : ISystem {
 
         ECB.Playback(state.EntityManager);
         ECB.Dispose();
-        _isSpawned = true;
+
+        state.Enabled = false; // disable the system to prevent multiple spawns
     }
 
 

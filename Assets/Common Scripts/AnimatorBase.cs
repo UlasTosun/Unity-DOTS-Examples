@@ -2,11 +2,7 @@ using UnityEngine;
 
 
 
-public abstract class AnimatorBase : MonoBehaviour {
-
-    [Header("References")]
-    [Tooltip("The prefab spawner to use.")]
-    public PrefabSpawner PrefabSpawner;
+public class AnimatorBase : MonoBehaviour {
 
     [Header("Settings")]
     [Tooltip("The amplitude of the wave in the x and z directions.")]
@@ -17,9 +13,5 @@ public abstract class AnimatorBase : MonoBehaviour {
     public Vector2 Frequency = new(0.1f, 0.1f);
     [Tooltip("The phase of the wave in the x and z directions.")]
     public Vector2 PhaseMultiplier = new(1f, 1f);
-
-    [HideInInspector] public Transform[] ObjectsToAnimate => PrefabSpawner.SpawnedObjects;
-
-
 
 }

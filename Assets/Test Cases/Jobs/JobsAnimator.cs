@@ -9,6 +9,10 @@ using Unity.Burst;
 
 public class JobsAnimator : AnimatorBase {
 
+    [Header("References")]
+    [Tooltip("The prefab spawner to use.")]
+    public PrefabSpawner PrefabSpawner;
+
     private JobHandle _jobHandle;
     private JobsAnimatorStruct _jobStruct;
     private NativeArray<float2> _amplitude;
@@ -28,7 +32,7 @@ public class JobsAnimator : AnimatorBase {
         _phaseMultiplier = new NativeArray<float2>(1, Allocator.Persistent);
         _phaseMultiplier[0] = PhaseMultiplier;
 
-        _transformAccessArray = new TransformAccessArray(ObjectsToAnimate);
+        _transformAccessArray = new TransformAccessArray(PrefabSpawner.SpawnedObjects);
 
     }
 

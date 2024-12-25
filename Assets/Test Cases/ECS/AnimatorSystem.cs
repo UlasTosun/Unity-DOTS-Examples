@@ -2,6 +2,7 @@ using Unity.Burst;
 using Unity.Mathematics;
 using Unity.Entities;
 using Unity.Transforms;
+using Unity.Collections;
 
 
 
@@ -46,7 +47,7 @@ partial struct AnimatorSystem : ISystem {
 [BurstCompile]
 public partial struct AnimatorJob : IJobEntity {
 
-    public double ElapsedTime;
+    [ReadOnly] public double ElapsedTime;
 
 
 

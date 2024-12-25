@@ -132,7 +132,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1931752426}
-  - component: {fileID: 1931752425}
+  - component: {fileID: 1931752428}
   - component: {fileID: 1931752427}
   m_Layer: 0
   m_Name: Settings
@@ -141,22 +141,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1931752425
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1931752424}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b10583011941f3d4b8273e80b2a2b839, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PrefabToSpawn: {fileID: 8073483570075569285, guid: 501cc209991380f44b1cae28deae350b,
-    type: 3}
-  ObjectCount: {x: 200, y: 200}
-  ObjectSpacing: {x: 2, y: 2}
 --- !u!4 &1931752426
 Transform:
   m_ObjectHideFlags: 0
@@ -184,10 +168,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80baba33106721c47bee3d378f0de8db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PrefabSpawner: {fileID: 0}
   Amplitude: {x: 7, y: 7}
   Frequency: {x: 0.1, y: 0.1}
   PhaseMultiplier: {x: 1, y: 1}
+--- !u!114 &1931752428
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1931752424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b10583011941f3d4b8273e80b2a2b839, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PrefabToSpawn: {fileID: 8073483570075569285, guid: 501cc209991380f44b1cae28deae350b,
+    type: 3}
+  ObjectCount: {x: 200, y: 200}
+  ObjectSpacing: {x: 2, y: 2}
+  SpawnedObjects: []
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

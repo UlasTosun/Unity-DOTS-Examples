@@ -4,12 +4,17 @@ using UnityEngine;
 
 public class DefaultAnimator : AnimatorBase {
 
+    [Header("References")]
+    [Tooltip("The prefab spawner to use.")]
+    public PrefabSpawner PrefabSpawner;
+
 
 
     void Update() {
+        Transform[] objectsToAnimate = PrefabSpawner.SpawnedObjects;
 
-        for (int i = 0; i < ObjectsToAnimate.Length; i++) {
-            Transform objectToAnimate = ObjectsToAnimate[i];
+        for (int i = 0; i < objectsToAnimate.Length; i++) {
+            Transform objectToAnimate = objectsToAnimate[i];
             float xPosition = objectToAnimate.position.x;
             float zPosition = objectToAnimate.position.z;
             float xWave = Mathf.Sin(Frequency.x * xPosition + PhaseMultiplier.x * Time.time);

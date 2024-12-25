@@ -15,7 +15,7 @@ public class ECSAnimatorBaker : Baker<ECSAnimatorAuthoring> {
     public override void Bake(ECSAnimatorAuthoring authoring) {
         Entity entity = GetEntity(TransformUsageFlags.None);
 
-        ECSAnimator animator = new ECSAnimator() {
+        ECSAnimator animator = new () {
             Amplitude = authoring.Amplitude,
             Frequency = authoring.Frequency,
             PhaseMultiplier = authoring.PhaseMultiplier

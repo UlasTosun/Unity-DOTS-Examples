@@ -9,8 +9,6 @@ public class PrefabSpawner : MonoBehaviour {
     public GameObject PrefabToSpawn;
 
     [Header("Settings")]
-    [Tooltip("If true, the prefab will be spawned automatically when the scene starts.")]
-    [SerializeField] private bool _autoSpawn = true;
     [Tooltip("The number of objects to spawn on the X and Z axes.")]
     public Vector2Int ObjectCount = new (200, 200);
     [Tooltip("The distance between each object on the X and Z axes.")]
@@ -22,9 +20,7 @@ public class PrefabSpawner : MonoBehaviour {
 
     void Awake() {
         SpawnedObjects = new Transform[ObjectCount.x * ObjectCount.y];
-
-        if (_autoSpawn)
-            SpawnObjects();
+        SpawnObjects();
     }
 
 
