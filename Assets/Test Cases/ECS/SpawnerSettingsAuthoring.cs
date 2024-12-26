@@ -18,7 +18,7 @@ public class SpawnerSettingsBaker : Baker<SpawnerSettingsAuthoring> {
         SpawnerSettings settings = new() {
             PrefabToSpawn = GetEntity(authoring.PrefabToSpawn, TransformUsageFlags.Dynamic),
             ObjectCount = new(authoring.ObjectCount.x, authoring.ObjectCount.y),
-            ObjectSpacing = new(authoring.ObjectSpacing.x, authoring.ObjectSpacing.y)            
+            ObjectSpacing = new(authoring.ObjectSpacing.x, authoring.ObjectSpacing.y),
         };
 
         AddComponent(entity, settings);

@@ -25,10 +25,9 @@ partial struct SpawnerSystem : ISystem {
         EntityCommandBuffer ECB = new(Allocator.TempJob);
         EntityCommandBuffer.ParallelWriter ParallelECB = ECB.AsParallelWriter();
 
-        foreach (var (spawnerSettings, ecsAnimator) in SystemAPI.Query<RefRO<SpawnerSettings>, RefRO<ECSAnimator>>()) {
+        foreach (var spawnerSettings in SystemAPI.Query<RefRO<SpawnerSettings>>()) {
             SpawnerJob spawnerJob = new() {
                 SpawnerSettings = spawnerSettings.ValueRO,
-                ECSAnimator = ecsAnimator.ValueRO,
                 ParallelECB = ParallelECB
             };
 
@@ -60,7 +59,6 @@ partial struct SpawnerSystem : ISystem {
 public struct SpawnerJob : IJobParallelFor {
 
     [ReadOnly] public SpawnerSettings SpawnerSettings;
-    [ReadOnly] public ECSAnimator ECSAnimator;
     public EntityCommandBuffer.ParallelWriter ParallelECB;
 
 
@@ -82,9 +80,7 @@ public struct SpawnerJob : IJobParallelFor {
 
         Entity entity = ParallelECB.Instantiate(i, SpawnerSettings.PrefabToSpawn);
         ParallelECB.SetComponent(i, entity, localTransform);
-        ParallelECB.AddComponent(i, entity, ECSAnimator);
     }
-
 
 
 
