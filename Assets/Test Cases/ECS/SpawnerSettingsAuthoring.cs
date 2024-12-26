@@ -22,7 +22,6 @@ public class SpawnerSettingsBaker : Baker<SpawnerSettingsAuthoring> {
         };
 
         AddComponent(entity, settings);
-
     }
 
 

@@ -75,7 +75,8 @@ public struct SpawnerJob : IJobParallelFor {
 
         LocalTransform localTransform = new(){
             Position = position,
-            Scale = 1f
+            Rotation = quaternion.identity, // do not forget to set rotation
+            Scale = 1f // do not forget to set scale
         };
 
         Entity entity = ParallelECB.Instantiate(i, SpawnerSettings.PrefabToSpawn);
