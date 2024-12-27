@@ -10,14 +10,21 @@ public class DefaultComputeShaderAnimator : AnimatorBase {
     [Tooltip("The compute shader to animate with.")]
     public ComputeShader ComputeShader;
 
+    private Transform[] _objectsToAnimate;
+    private Vector3[] _positions;
+
+
+
+    void Start() {
+        _objectsToAnimate = PrefabSpawner.SpawnedObjects;
+        _positions = GetPositions(_objectsToAnimate);
+    }
+
 
 
     void Update() {
-        Transform[] objectsToAnimate = PrefabSpawner.SpawnedObjects;
-
-        Vector3[] positions = GetPositions(objectsToAnimate);
-        UpdatePositions(positions);
-        SetPositions(objectsToAnimate, positions);
+        UpdatePositions(_positions);
+        SetPositions(_objectsToAnimate, _positions);
     }
 
 
