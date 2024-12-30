@@ -23,14 +23,13 @@ partial struct AnimatorSystem : ISystem {
     [BurstCompile]
     public void OnUpdate(ref SystemState state) {
         ECSAnimator ecsAnimator = SystemAPI.GetSingleton<ECSAnimator>();
-        EntityQuery query = SystemAPI.QueryBuilder().WithAll<LocalTransform>().Build();
 
         AnimatorJob animatorJob = new() {
             ElapsedTime = SystemAPI.Time.ElapsedTime,
             ECSAnimator = ecsAnimator
         };
 
-        animatorJob.ScheduleParallel(query);
+        animatorJob.ScheduleParallel(); // no need to specify the query for IJobEntity, it will automatically create the query
     }
 
 

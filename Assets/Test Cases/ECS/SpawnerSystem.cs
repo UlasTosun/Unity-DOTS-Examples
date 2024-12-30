@@ -22,19 +22,19 @@ partial struct SpawnerSystem : ISystem {
 
     [BurstCompile]
     public void OnUpdate(ref SystemState state) {
+        SpawnerSettings spawnerSettings = SystemAPI.GetSingleton<SpawnerSettings>();
+
         EntityCommandBuffer ECB = new(Allocator.TempJob);
         EntityCommandBuffer.ParallelWriter ParallelECB = ECB.AsParallelWriter();
 
-        foreach (var spawnerSettings in SystemAPI.Query<RefRO<SpawnerSettings>>()) {
-            SpawnerJob spawnerJob = new() {
-                SpawnerSettings = spawnerSettings.ValueRO,
-                ParallelECB = ParallelECB
-            };
+        SpawnerJob spawnerJob = new() {
+            SpawnerSettings = spawnerSettings,
+            ParallelECB = ParallelECB
+        };
 
-            int objectCount = spawnerSettings.ValueRO.ObjectCount.x * spawnerSettings.ValueRO.ObjectCount.y;
-            JobHandle jobHandle = spawnerJob.Schedule(objectCount, 32);
-            jobHandle.Complete();
-        }
+        int objectCount = spawnerSettings.ObjectCount.x * spawnerSettings.ObjectCount.y;
+        JobHandle jobHandle = spawnerJob.Schedule(objectCount, 32);
+        jobHandle.Complete();
 
         ECB.Playback(state.EntityManager);
         ECB.Dispose();

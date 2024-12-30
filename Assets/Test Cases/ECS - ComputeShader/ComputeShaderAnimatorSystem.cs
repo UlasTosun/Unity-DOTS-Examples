@@ -27,14 +27,12 @@ partial struct ComputeShaderAnimatorSystem : ISystem {
 
 
     public void OnUpdate(ref SystemState state) {
-        ECSComputeShaderAnimator animator = SystemAPI.GetSingleton<ECSComputeShaderAnimator>();
         EntityQuery query = SystemAPI.QueryBuilder().WithAll<LocalTransform>().Build();
 
         // Get the compute shader
-        ComputeShader computeShader = null;
-        foreach (ComputeShaderData computeShaderData in SystemAPI.Query<ComputeShaderData>()) {
-            computeShader = computeShaderData.ComputeShader;
-        }
+        ECSComputeShaderAnimator animator = SystemAPI.GetSingleton<ECSComputeShaderAnimator>();
+        ComputeShaderData computeShaderData = SystemAPI.ManagedAPI.GetSingleton<ComputeShaderData>(); // Since it is managed component, we need to get it from the ManagedAPI
+        ComputeShader computeShader = computeShaderData.ComputeShader;
         ComputeShaderManager computeShaderManager = new(computeShader, (Vector2)animator.Amplitude, (Vector2)animator.Frequency, (Vector2)animator.PhaseMultiplier);
 
         if (!_initialized) {            
@@ -57,7 +55,7 @@ partial struct ComputeShaderAnimatorSystem : ISystem {
         SetPositionJob setPositionJob = new() {
             Positions = _positions
         };
-        setPositionJob.ScheduleParallel(query);
+        setPositionJob.ScheduleParallel(); // no need to specify the query for IJobEntity, it will automatically create the query
 
     }
 
