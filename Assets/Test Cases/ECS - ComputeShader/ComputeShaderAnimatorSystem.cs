@@ -9,6 +9,7 @@ using Unity.Jobs;
 
 
 [CreateAfter(typeof(SpawnerSystem))]
+[UpdateAfter(typeof(SpawnerSystem))]
 [RequireMatchingQueriesForUpdate]
 [BurstCompile]
 partial struct ComputeShaderAnimatorSystem : ISystem {
@@ -20,10 +21,10 @@ partial struct ComputeShaderAnimatorSystem : ISystem {
 
     [BurstCompile]
     public void OnCreate(ref SystemState state) {
+        state.RequireForUpdate<ECSComputeShaderTag>();
         state.RequireForUpdate<ECSComputeShaderAnimator>();
         state.RequireForUpdate<ComputeShaderData>();
     }
-
 
 
 

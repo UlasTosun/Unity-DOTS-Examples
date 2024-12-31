@@ -7,6 +7,7 @@ using Unity.Collections;
 
 
 [CreateAfter(typeof(SpawnerSystem))]
+[UpdateAfter(typeof(SpawnerSystem))]
 [RequireMatchingQueriesForUpdate]
 [BurstCompile]
 partial struct AnimatorSystem : ISystem {
@@ -15,6 +16,7 @@ partial struct AnimatorSystem : ISystem {
 
     [BurstCompile]
     public void OnCreate(ref SystemState state) {
+        state.RequireForUpdate<ECSTag>();
         state.RequireForUpdate<ECSAnimator>();
     }
 
