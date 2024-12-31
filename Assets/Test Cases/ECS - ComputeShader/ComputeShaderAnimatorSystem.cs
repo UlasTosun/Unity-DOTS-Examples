@@ -4,6 +4,7 @@ using Unity.Entities;
 using Unity.Transforms;
 using Unity.Mathematics;
 using Unity.Collections;
+using Unity.Jobs;
 
 
 
@@ -35,27 +36,29 @@ partial struct ComputeShaderAnimatorSystem : ISystem {
         ComputeShader computeShader = computeShaderData.ComputeShader;
         ComputeShaderManager computeShaderManager = new(computeShader, (Vector2)animator.Amplitude, (Vector2)animator.Frequency, (Vector2)animator.PhaseMultiplier);
 
-        if (!_initialized) {            
-            // Get the positions
+        // Get the positions
+        if (!_initialized) {
             _positions = new NativeArray<float3>(query.CalculateEntityCount(), Allocator.Persistent);
-            int i = 0;
-            foreach (LocalTransform localTransform in query.ToComponentDataArray<LocalTransform>(Allocator.Temp)) {
-                _positions[i] = localTransform.Position;
-                i++;
-            }
+
+            GetPositionJob getPositionJob = new() {
+                Positions = _positions
+            };
+            JobHandle jobHandle = getPositionJob.ScheduleParallel(state.Dependency); // no need to specify the query for IJobEntity, it will automatically create the query
+            jobHandle.Complete();
 
             _initialized = true;
-        }
 
         // Update the positions
-        float3[] positions = _positions.ToArray();
-        computeShaderManager.UpdatePositions(positions, (float) SystemAPI.Time.ElapsedTime);
-        _positions.CopyFrom(positions);
+        } else { 
+            float3[] positions = _positions.ToArray();
+            computeShaderManager.UpdatePositions(positions, (float)SystemAPI.Time.ElapsedTime);
+            _positions.CopyFrom(positions);
 
-        SetPositionJob setPositionJob = new() {
-            Positions = _positions
-        };
-        setPositionJob.ScheduleParallel(); // no need to specify the query for IJobEntity, it will automatically create the query
+            SetPositionJob setPositionJob = new() {
+                Positions = _positions
+            };
+            setPositionJob.ScheduleParallel(); // no need to specify the query for IJobEntity, it will automatically create the query
+        }
 
     }
 
@@ -75,7 +78,7 @@ partial struct ComputeShaderAnimatorSystem : ISystem {
 [BurstCompile]
 public partial struct SetPositionJob : IJobEntity {
 
-    public NativeArray<float3> Positions;
+    [ReadOnly] public NativeArray<float3> Positions;
 
 
 
@@ -87,3 +90,22 @@ public partial struct SetPositionJob : IJobEntity {
 
 
 }
+
+
+
+[BurstCompile]
+public partial struct GetPositionJob : IJobEntity {
+
+    public NativeArray<float3> Positions;
+
+
+
+    [BurstCompile]
+    public void Execute([EntityIndexInQuery] int index, in LocalTransform localTransform) {
+        Positions[index] = localTransform.Position;
+    }
+
+
+
+}
+
