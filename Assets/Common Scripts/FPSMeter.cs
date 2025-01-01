@@ -12,6 +12,7 @@ public class FPSMeter : MonoBehaviour {
 
     [Header("Settings")]
     [Tooltip("The number of frames to average over.")]
+    [Min(1)]
     [SerializeField] private int _filterSize = 30;
 
     private float[] _deltaTimes;

@@ -8,6 +8,7 @@ using Unity.Physics.Systems;
 
 
 
+[CreateAfter(typeof(SpawnerSystem))]
 [UpdateInGroup(typeof(PhysicsSystemGroup))]
 [RequireMatchingQueriesForUpdate]
 [BurstCompile]
@@ -17,6 +18,7 @@ partial struct PhysicsSystem : ISystem {
 
     [BurstCompile]
     public void OnCreate(ref SystemState state) {
+        state.RequireForUpdate<ECSPhysicsTag>();
         state.RequireForUpdate<PhysicsSettings>();
         state.RequireForUpdate<PhysicsVelocity>();
     }
@@ -26,13 +28,12 @@ partial struct PhysicsSystem : ISystem {
     [BurstCompile]
     public void OnUpdate(ref SystemState state) {
         PhysicsSettings physicsSettings = SystemAPI.GetSingleton<PhysicsSettings>();
-        EntityQuery query = SystemAPI.QueryBuilder().WithAll<PhysicsVelocity, LocalToWorld>().Build();
 
         PhysicsJob physicsJob = new() {
             PhysicsSettings = physicsSettings
         };
 
-        physicsJob.ScheduleParallel(query);
+        physicsJob.ScheduleParallel(); // No need to specify the query for IJobEntity, it will automatically create the query.
 
         state.Enabled = false;
     }
@@ -58,6 +59,7 @@ public partial struct PhysicsJob : IJobEntity {
 
 
     [BurstCompile]
+    // IJobEntity will automatically create the query of LocalTransform for us.
     public void Execute(ref PhysicsVelocity physicsVelocity, in LocalToWorld localToWorld) {
         float jumpForce = PhysicsSettings.JumpForce;
         float3 direction = math.normalize(PhysicsSettings.TargetPosition - localToWorld.Position);

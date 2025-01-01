@@ -33,7 +33,7 @@ partial struct ComputeShaderAnimatorSystem : ISystem {
 
         // Get the compute shader
         ECSComputeShaderAnimator animator = SystemAPI.GetSingleton<ECSComputeShaderAnimator>();
-        ComputeShaderData computeShaderData = SystemAPI.ManagedAPI.GetSingleton<ComputeShaderData>(); // Since it is managed component, we need to get it from the ManagedAPI
+        ComputeShaderData computeShaderData = SystemAPI.ManagedAPI.GetSingleton<ComputeShaderData>(); // Since it is managed component, we need to get it from the ManagedAPI.
         ComputeShader computeShader = computeShaderData.ComputeShader;
         ComputeShaderManager computeShaderManager = new(computeShader, (Vector2)animator.Amplitude, (Vector2)animator.Frequency, (Vector2)animator.PhaseMultiplier);
 
@@ -44,7 +44,7 @@ partial struct ComputeShaderAnimatorSystem : ISystem {
             GetPositionJob getPositionJob = new() {
                 Positions = _positions
             };
-            JobHandle jobHandle = getPositionJob.ScheduleParallel(state.Dependency); // no need to specify the query for IJobEntity, it will automatically create the query
+            JobHandle jobHandle = getPositionJob.ScheduleParallel(state.Dependency); // No need to specify the query for IJobEntity, it will automatically create the query.
             jobHandle.Complete();
 
             _initialized = true;
@@ -58,7 +58,7 @@ partial struct ComputeShaderAnimatorSystem : ISystem {
             SetPositionJob setPositionJob = new() {
                 Positions = _positions
             };
-            setPositionJob.ScheduleParallel(); // no need to specify the query for IJobEntity, it will automatically create the query
+            setPositionJob.ScheduleParallel(); // No need to specify the query for IJobEntity, it will automatically create the query.
         }
 
     }
@@ -84,6 +84,7 @@ public partial struct SetPositionJob : IJobEntity {
 
 
     [BurstCompile]
+    // IJobEntity will automatically create the query of LocalTransform for us.
     public void Execute([EntityIndexInQuery] int index, ref LocalTransform localTransform) {
         localTransform.Position = Positions[index];
     }
@@ -102,6 +103,7 @@ public partial struct GetPositionJob : IJobEntity {
 
 
     [BurstCompile]
+    // IJobEntity will automatically create the query of LocalTransform for us.
     public void Execute([EntityIndexInQuery] int index, in LocalTransform localTransform) {
         Positions[index] = localTransform.Position;
     }

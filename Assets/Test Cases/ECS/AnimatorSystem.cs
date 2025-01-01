@@ -31,7 +31,7 @@ partial struct AnimatorSystem : ISystem {
             ECSAnimator = ecsAnimator
         };
 
-        animatorJob.ScheduleParallel(); // no need to specify the query for IJobEntity, it will automatically create the query
+        animatorJob.ScheduleParallel(); // No need to specify the query for IJobEntity, it will automatically create the query.
     }
 
 
@@ -56,6 +56,7 @@ public partial struct AnimatorJob : IJobEntity {
 
 
     [BurstCompile]
+    // IJobEntity will automatically create the query of LocalTransform for us.
     public void Execute(ref LocalTransform localTransform) {
         float x = localTransform.Position.x;
         float z = localTransform.Position.z;

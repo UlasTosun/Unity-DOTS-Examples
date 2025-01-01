@@ -8,6 +8,7 @@ class ExecutionControllerAuthoring : MonoBehaviour {
     [Header("Tags for the Sub Scene")]
     public bool ECS;
     public bool ECSComputeShader;
+    public bool ECSPhysics;
     
 }
 
@@ -26,6 +27,9 @@ class ExecutionControllerAuthoringBaker : Baker<ExecutionControllerAuthoring> {
         if (authoring.ECSComputeShader)
             AddComponent<ECSComputeShaderTag>(entity);
 
+        if (authoring.ECSPhysics)
+            AddComponent<ECSPhysicsTag>(entity);
+
     }
 
 
@@ -41,5 +45,11 @@ public struct ECSTag : IComponentData {
 
 
 public struct ECSComputeShaderTag : IComponentData {
+
+}
+
+
+
+public struct ECSPhysicsTag : IComponentData {
 
 }

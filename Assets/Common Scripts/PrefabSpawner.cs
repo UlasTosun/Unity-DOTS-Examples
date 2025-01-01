@@ -10,8 +10,10 @@ public class PrefabSpawner : MonoBehaviour {
 
     [Header("Settings")]
     [Tooltip("The number of objects to spawn on the X and Z axes.")]
+    [Min(0)]
     public Vector2Int ObjectCount = new (200, 200);
     [Tooltip("The distance between each object on the X and Z axes.")]
+    [Min(0)]
     public Vector2 ObjectSpacing = new (2f, 2f);
 
     [HideInInspector] public Transform[] SpawnedObjects;

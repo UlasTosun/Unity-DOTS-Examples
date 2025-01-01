@@ -8,6 +8,7 @@ using Unity.Transforms;
 
 
 [CreateBefore(typeof(AnimatorSystem))]
+[RequireMatchingQueriesForUpdate]
 [BurstCompile]
 partial struct SpawnerSystem : ISystem {
 
@@ -15,7 +16,7 @@ partial struct SpawnerSystem : ISystem {
 
     [BurstCompile]
     public void OnCreate(ref SystemState state) {
-
+        state.RequireForUpdate<SpawnerSettings>();
     }
 
 
@@ -24,8 +25,8 @@ partial struct SpawnerSystem : ISystem {
     public void OnUpdate(ref SystemState state) {
         SpawnerSettings spawnerSettings = SystemAPI.GetSingleton<SpawnerSettings>();
 
-        EntityCommandBuffer ECB = new(Allocator.TempJob);
-        EntityCommandBuffer.ParallelWriter ParallelECB = ECB.AsParallelWriter();
+        EntityCommandBuffer ECB = new(Allocator.TempJob); // Create an entity command buffer to make structural changes more efficiently.
+        EntityCommandBuffer.ParallelWriter ParallelECB = ECB.AsParallelWriter(); // Create a parallel writer for ECB to be able to write in parallel jobs.
 
         SpawnerJob spawnerJob = new() {
             SpawnerSettings = spawnerSettings,
@@ -36,10 +37,10 @@ partial struct SpawnerSystem : ISystem {
         JobHandle jobHandle = spawnerJob.Schedule(objectCount, 32);
         jobHandle.Complete();
 
-        ECB.Playback(state.EntityManager);
+        ECB.Playback(state.EntityManager); // Let ECB apply the changes to the EntityManager.
         ECB.Dispose();
 
-        state.Enabled = false; // disable the system to prevent multiple spawns
+        state.Enabled = false; // Disable the system to prevent multiple spawns.
     }
 
 
@@ -75,8 +76,8 @@ public struct SpawnerJob : IJobParallelFor {
 
         LocalTransform localTransform = new(){
             Position = position,
-            Rotation = quaternion.identity, // do not forget to set rotation
-            Scale = 1f // do not forget to set scale
+            Rotation = quaternion.identity, // Do not forget to set rotation.
+            Scale = 1f // Do not forget to set scale.
         };
 
         Entity entity = ParallelECB.Instantiate(i, SpawnerSettings.PrefabToSpawn);

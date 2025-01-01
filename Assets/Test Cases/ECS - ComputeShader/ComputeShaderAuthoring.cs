@@ -24,7 +24,7 @@ public class ComputeShaderAuthoringBaker : Baker<ComputeShaderAuthoring> {
             ComputeShader = authoring.ComputeShader
         };
 
-        AddComponentObject(entity, computeShaderData);
+        AddComponentObject(entity, computeShaderData); // Use AddComponentObject instead of AddComponent for managed components.
     }
 
 
