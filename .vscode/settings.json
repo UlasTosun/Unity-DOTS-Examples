@@ -51,5 +51,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "dots-examples.sln"
+    "dotnet.defaultSolution": "Unity-DOTS-Examples.sln"
 }
